@@ -89,9 +89,10 @@ function apiBackbone(response, query) {
             var obj = JSON.parse(body);
             console.log(obj);
             console.log("---------------closing connection with server--------------");
-            console.log(obj[0].hasOwnProperty("message"));
+            console.log(typeof obj);
+            //console.log(obj[0].hasOwnProperty("message"));
             //need a try statement here
-            if (obj[0].hasOwnProperty("message")) {
+            if (!obj.hasOwnProperty("results")) {
                 console.log("<<<<<<<<<< no results >>>>>>>>>>>");
                 arrBackbone.push(obj[0]);
             } else {
