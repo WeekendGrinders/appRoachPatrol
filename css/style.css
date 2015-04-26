@@ -61,8 +61,8 @@ body {
     padding: 20px;
 }
 
-#restaurantView {
-    display: none;
+#restaurantListView {
+    display: block;
     position: absolute;
     background-color: white;
     padding: 15px;
@@ -79,16 +79,16 @@ body {
     border-radius: 5px;
 }
 
-#restaurantView ul {
+#restaurantList ul {
     list-style-type: none;
     margin: 5px 0px;
 }
 
-#restaurantView li {
+#restaurantList li {
     padding: 3px;
 }
 
-#restaurantView a {
+#restaurantList a {
 
 }
 

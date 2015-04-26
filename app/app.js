@@ -155,7 +155,9 @@ var AppView = Backbone.View.extend({
             //}); //<< same as center point latlng above
             // create views
             var listView = new RestaurantListView({model: Restaurants, map: self.map});
-        }, 500);
+            listView.render();
+            console.log(listView.el);
+        }, 0);
     }
 });
 
