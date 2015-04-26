@@ -112,6 +112,12 @@ var AppView = Backbone.View.extend({
 
         map = new google.maps.Map(document.getElementById('mapCanvas'),
             mapOptions);
+
+        google.maps.event.addDomListener(window, "resize", function() {
+        var center = map.getCenter();
+        google.maps.event.trigger(map, "resize");
+        map.setCenter(center); 
+        });
         //console.log("This.map :" test.map);
     },
 
