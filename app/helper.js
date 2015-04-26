@@ -18,6 +18,8 @@ function getLocation (){
             zipLng = position.coords.longitude;
             var LatLng = zipLng + ',' + zipLat;
             console.log(LatLng);
+            var center = new google.maps.LatLng(zipLat, zipLng);
+            map.panTo(center);
             //return LatLng;
             Restaurants.fetch({
                 success: function (collection, response, options) {
@@ -26,7 +28,11 @@ function getLocation (){
                     if (Restaurants.models[0].attributes.hasOwnProperty('message')) {
                         console.log("no results found.");
                         noResults(Restaurants.models[0].attributes.message);
+                    } else {
+                        console.log("Putting markers on the map...");
+                        plotMarkers();
                     }
+
                 },
                 data: LatLng}); //<< same as center point latlng above
         });
@@ -57,8 +63,8 @@ function getLatLng(zip) {
                 console.log(zipCodeLat);
                 var zipCodeLng = results[0].geometry.location.lng();
                 console.log(zipCodeLng);
-
-                console.log("just need to make a fetch here"); 
+                var center = new google.maps.LatLng(zipCodeLat, zipCodeLng);
+                map.panTo(center);
                 var LatLng = zipCodeLng + ',' + zipCodeLat;
                 console.log(LatLng);
                 Restaurants.fetch({
@@ -67,6 +73,9 @@ function getLatLng(zip) {
                         if (Restaurants.models[0].attributes.hasOwnProperty('message')) {
                             console.log("no results found.");
                             noResults(Restaurants.models[0].attributes.message);
+                        } else {
+                            console.log("Putting markers on the map...");
+                            plotMarkers();
                         }
                     },
                     data: LatLng
@@ -76,6 +85,62 @@ function getLatLng(zip) {
                 alert('Geocode was not successful');
             }
         })
+}
+
+function plotMarkers() {
+    for(var i = 0; i < Restaurants.models.length; i++) {
+        console.log(
+            'Name: ' + Restaurants.models[i].attributes.name + '\n' +
+            'InspectionID: ' + Restaurants.models[i].attributes.inspection_number + '\n' +
+            'Lat: ' + Restaurants.models[i].attributes.location.Latitude + '\n' +
+            'Long: ' + Restaurants.models[i].attributes.location.Longitude + '\n'
+        );
+        //show info in sidebar
+        // $('.results').append('<div id="'+i+'" class="resultItem" onClick="getThis('+i+')"><span class="restName">' + Restaurants.models[i].name + '</span><br><span class="restAddress">' + Restaurants.models[i].address.street + '</span><span class="restScore"> Score:' + Restaurants.models[i].score + '</span></div>');
+        // if ((i%2) != 0) {
+        //     $('#'+i).css({background: "#CCC"});
+        // }
+        
+        //Initialize infoWindows for the markers
+        //var infowindow = new google.maps.InfoWindow();
+
+        //Close any open infoWindow if the map is clicked (don't want more than one open at a time)
+        google.maps.event.addListener(map, 'click', function() {
+            infowindow.close();
+        });
+        
+        //create markers
+        var iconMarker = '';
+
+        if (Restaurants.models[i].attributes.score >= 90) {
+            iconMarker = 'img/restaurantMarker.png';
+        } else if (Restaurants.models[i].attributes.score >= 80){
+            iconMarker = 'img/restaurantCold.png';
+        } else {
+            iconMarker = 'img/restaurantMarkerSelected.png';
+        }
+
+        //Initialize infoWindows for the markers
+        var infowindow = new google.maps.InfoWindow();
+
+        marker = new google.maps.Marker({
+            map: map,
+            animation: google.maps.Animation.DROP,
+            icon: iconMarker,
+            position: new google.maps.LatLng(Restaurants.models[i].attributes.location.Latitude, Restaurants.models[i].attributes.location.Longitude),
+            title: Restaurants.models[i].attributes.name //hover pop-up name
+        });
+
+        //open the infoWindow for the restaurant when a marker is clicked
+        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+            console.log("Hey! You clicked a marker!");
+            return function() {
+                var inspectionNums = Restaurants.models[i].attributes.inspection_number.join('_');
+                infowindow.setContent('<h4>' + Restaurants.models[i].attributes.name + '</h4> Score: ' +Restaurants.models[i].attributes.score+ '<br><div class="inspectionNums" onClick="openReports(\''+inspectionNums+'\')"> Inspections reports: ' + Restaurants.models[i].attributes.inspection_number+'</div>');
+                infowindow.open(map, marker);
+            }
+        }));
+    }
 }
 
 function initialize() {
