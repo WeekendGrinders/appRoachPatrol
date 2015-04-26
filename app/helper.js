@@ -16,17 +16,29 @@ function getLocation (){
             // zipLat and zipLng assigned to global vars
             zipLat = position.coords.latitude;
             zipLng = position.coords.longitude;
-            var LatLng = {
-                data: zipLng + ',' + zipLat
-            };
+            var LatLng = zipLng + ',' + zipLat;
             console.log(LatLng);
             //return LatLng;
-            Restaurants.fetch(LatLng); //<< same as center point latlng above
+            Restaurants.fetch({
+                success: function (collection, response, options) {
+                    // you can pass additional options to the event you trigger here as well
+                    console.log("fetch successful, checking for no results...");
+                    if (Restaurants.models[0].attributes.hasOwnProperty('message')) {
+                        console.log("no results found.");
+                        noResults(Restaurants.models[0].attributes.message);
+                    }
+                },
+                data: LatLng}); //<< same as center point latlng above
         });
     } else {
         alert('Geolocation not supported, please select zipcode from drop down menu');
     }
 
+}
+
+function noResults(message) {
+    console.log("Need to show user that there was no results");
+    $('#app').prepend('<div class="noResults">No Restaurants found nearby. Please select a zipcode.</div>');
 }
 
 //Getting latLng of requested zipcode and storing them in zipLat and zipLng
