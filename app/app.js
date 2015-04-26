@@ -15,7 +15,13 @@ var AppView = Backbone.View.extend({
 
     events: {
         "click #btnDetail": 'showDetail',
-        'click #btnMap': 'showMap'
+        'click #btnMap': 'showMap',
+        'click #myPosition' : 'getLoc'
+    },
+
+    getLoc: function() {
+        console.log("You clicked that button!!!");
+        getLocation();
     },
 
     showDetail: function () { //triggers "detail" mode

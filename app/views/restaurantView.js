@@ -19,7 +19,7 @@ var RestaurantView = Backbone.View.extend({
         'mouseout a': 'hideRestaurantInfo',
         'click button': 'deleteRestaurantConfirm',
         'click a.delete': 'deleteRestaurant',
-        'click a.detail': 'showRestaurantDetail'
+        'click a.detail': 'showRestaurantDetail',
     },
 
     showRestaurantDetail: function () {
