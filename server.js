@@ -78,7 +78,7 @@ function apiBackbone(response, query) {
     var arrBackbone = [];
 
     //making API GET request
-    http.get("http://api.civicapps.org/restaurant-inspections/near/" + query + "?distance=.5&count=20000", function (res) {
+    http.get("http://api.civicapps.org/restaurant-inspections/near/" + query + "?distance=1&count=20000", function (res) {
         console.log("Got response: " + res.statusCode);
         res.on('data', function (chunk) {
             body += chunk;

@@ -2,6 +2,7 @@
 var Restaurants = new RestaurantList();
 var App = null;
 var test;
+var map;
 
 /**
  * The App
@@ -86,6 +87,7 @@ var AppView = Backbone.View.extend({
     // Initialize map
     //--------------------------------------
     _initialize_map: function () {
+        var test = this;
         var center = new google.maps.LatLng(45.522234, -122.676309); //<< pass in center latlng from either zip or myPos
         var styles = [
             {
@@ -97,14 +99,20 @@ var AppView = Backbone.View.extend({
             }
         ];
 
+        //Initialize infoWindows for the markers
+        var infowindow = new google.maps.InfoWindow();
+
         var mapOptions = {
             zoom: 15,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             center: center,
             styles: styles
         };
-        this.map = new google.maps.Map(document.getElementById('mapCanvas'),
+        console.log("This in the _initialize_map function: " + test);
+
+        map = new google.maps.Map(document.getElementById('mapCanvas'),
             mapOptions);
+        //console.log("This.map :" test.map);
     },
 
 
