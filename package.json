@@ -1,0 +1,13 @@
+{
+  "name": "RoachPatrol",
+  "version": "0.0.1",
+  "description": "Peace of mind",
+  "main": "0-process-argv.js",
+  "author": "K.Houston, M.Tupper & A.Emery",
+  "license": "ISC",
+  "dependencies": {
+    "request": "^2.55.0",
+    "routes-router": "^4.1.2",
+    "st": "^0.5.3"
+  }
+}
