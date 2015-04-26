@@ -15,12 +15,10 @@ var AppView = Backbone.View.extend({
     // Event wiring (events and event handlers)
 
     events: {
-        "click #btnDetail": 'showDetail',
+        'click #btnDetail': 'showDetail',
         'click #btnMap': 'showMap',
         'click #myPosition' : 'getLoc',
-        // 'click .dropdown-menu' : 'getThisZip',
-        'click .97201': 'getThisZip',
-        'click .97202': 'getThisZip'
+        'click .zipOpt': 'getThisZip'
     },
 
     getLoc: function() {
@@ -30,11 +28,10 @@ var AppView = Backbone.View.extend({
 
     getThisZip: function() {
         test = '';
-        test = this.el;
+        test = event.target.id;
         console.log("Base :" + test);
-        console.log("main :" + test.main);
-        console.log("main[0] :" + test.main[0]);
-        console.log("main[0].value :" + test.main[0].value);
+        $('.noResults').remove();
+        getLatLng(test);
     },
 
     showDetail: function () { //triggers "detail" mode

@@ -38,27 +38,39 @@ function getLocation (){
 
 function noResults(message) {
     console.log("Need to show user that there was no results");
-    $('#app').prepend('<div class="noResults">No Restaurants found nearby. Please select a zipcode.</div>');
+    if ($('.noResults').length == 0){
+        $('#app').prepend('<div class="noResults">No restaurants were found nearby. Please select a zipcode.</div>');
+    } else {
+        //maybe highlight the div if it's already in the DOM????
+    }
 }
 
 //Getting latLng of requested zipcode and storing them in zipLat and zipLng
-function getLatLng() {
+function getLatLng(zip) {
     geocoder = new google.maps.Geocoder();
     geocoder.geocode({
-            address: getZip('zipcode')
+            address: zip
         },
         function(results, status){
             if(status == google.maps.GeocoderStatus.OK) {
-                zipLat = results[0].geometry.location.lat();
-                console.log(zipLat);
-                zipLng = results[0].geometry.location.lng();
-                console.log(zipLng);
+                var zipCodeLat = results[0].geometry.location.lat();
+                console.log(zipCodeLat);
+                var zipCodeLng = results[0].geometry.location.lng();
+                console.log(zipCodeLng);
 
-                //set lat and lng in the opt object from capstone.js
-                opt = {"lat": zipLat, "lng": zipLng};
-                zipLocation = {latitude: zipLat, longitude: zipLng};
-                //make API GET request from capstone.js
-                roachPatrol.go();
+                console.log("just need to make a fetch here"); 
+                var LatLng = zipCodeLng + ',' + zipCodeLat;
+                console.log(LatLng);
+                Restaurants.fetch({
+                    success: function (collection, response, options) {
+                        console.log("fetch successful, checking for no results...");
+                        if (Restaurants.models[0].attributes.hasOwnProperty('message')) {
+                            console.log("no results found.");
+                            noResults(Restaurants.models[0].attributes.message);
+                        }
+                    },
+                    data: LatLng
+                }); //<< same as center point latlng above
             } else {
                 //something went very wrong...
                 alert('Geocode was not successful');

@@ -78,7 +78,7 @@ function apiBackbone(response, query) {
     var arrBackbone = [];
 
     //making API GET request
-    http.get("http://api.civicapps.org/restaurant-inspections/near/" + query + "?distance=2&count=20000", function (res) {
+    http.get("http://api.civicapps.org/restaurant-inspections/near/" + query + "?distance=.5&count=20000", function (res) {
         console.log("Got response: " + res.statusCode);
         res.on('data', function (chunk) {
             body += chunk;
@@ -90,6 +90,7 @@ function apiBackbone(response, query) {
             console.log(obj);
             console.log("---------------closing connection with server--------------");
             console.log(obj[0].hasOwnProperty("message"));
+            //need a try statement here
             if (obj[0].hasOwnProperty("message")) {
                 console.log("<<<<<<<<<< no results >>>>>>>>>>>");
                 arrBackbone.push(obj[0]);
