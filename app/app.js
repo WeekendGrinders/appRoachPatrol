@@ -99,8 +99,6 @@ var AppView = Backbone.View.extend({
             }
         ];
 
-        //Initialize infoWindows for the markers
-        var infowindow = new google.maps.InfoWindow();
 
         var mapOptions = {
             zoom: 15,

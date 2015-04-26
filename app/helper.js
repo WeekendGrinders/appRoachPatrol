@@ -102,7 +102,7 @@ function plotMarkers() {
         // }
         
         //Initialize infoWindows for the markers
-        //var infowindow = new google.maps.InfoWindow();
+        var infowindow = new google.maps.InfoWindow();
 
         //Close any open infoWindow if the map is clicked (don't want more than one open at a time)
         google.maps.event.addListener(map, 'click', function() {
@@ -133,13 +133,13 @@ function plotMarkers() {
 
         //open the infoWindow for the restaurant when a marker is clicked
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
-            console.log("Hey! You clicked a marker!");
+            console.log("Hey! You clicked a marker! This marker: " + marker);
             return function() {
                 var inspectionNums = Restaurants.models[i].attributes.inspection_number.join('_');
-                infowindow.setContent('<h4>' + Restaurants.models[i].attributes.name + '</h4> Score: ' +Restaurants.models[i].attributes.score+ '<br><div class="inspectionNums" onClick="openReports(\''+inspectionNums+'\')"> Inspections reports: ' + Restaurants.models[i].attributes.inspection_number+'</div>');
+                infowindow.setContent('<div class="restInfoWindow"><h4>' + Restaurants.models[i].attributes.name + '</h4> Score: ' +Restaurants.models[i].attributes.score+ '<br><div class="inspectionNums" onClick="openReports(\''+inspectionNums+'\')"> Inspections reports: ' + Restaurants.models[i].attributes.inspection_number+'</div><button id="showMore" class="btn btn-warning">More Info</button><div>');
                 infowindow.open(map, marker);
             }
-        }));
+        })(marker, i));
     }
 }
 
