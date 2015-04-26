@@ -25,7 +25,7 @@ var RestaurantListView = Backbone.View.extend({
 
     events: {
         'click #btn_pop_new_company': 'newRestaurantPopup',
-        'click #btn_delete_all_companies': 'deleteAllRestaurants'
+        'click #btn_delete_all_companies': 'deleteAllRestaurants',
     },
 
     // event handler for "new restaurant" action
