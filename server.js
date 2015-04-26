@@ -73,38 +73,56 @@ function api(response, query) {
 //Call for inspection records around a certain LatLng
 function apiBackbone(response, query) {
 
-    //split query into lat long
-    //var slicedQuery = query.split('=');
-    //var lat = slicedQuery[1].substring(0, slicedQuery[1].length - 4);
-    //var lng = slicedQuery[2];
-    //var lngLat = lng + "," + lat;
 
-    //console.log("lng: " + lng);
-    //console.log("lat: " + lat);
-    //console.log("lngLat: " + lngLat);
 
     var arrBackbone = [];
 
     //making API GET request
-    http.get("http://api.civicapps.org/restaurant-inspections/near/" + query + "?distance=2&count=20000", function (res) {
+    http.get("http://api.civicapps.org/restaurant-inspections/near/" + query + "?distance=.5&count=20000", function (res) {
         console.log("Got response: " + res.statusCode);
         res.on('data', function (chunk) {
             body += chunk;
             console.log("---------------Recieved a chunk of data from API--------------");
         });
         res.on('end', function () {
-            //console.log(body);
+            
             var obj = JSON.parse(body);
+            console.log(obj);
             console.log("---------------closing connection with server--------------");
-            //removing inspections with the score of 0
-            for (var i = (obj.results.length - 1); i > -1; i--) {
-                if (obj.results[i].score == 0) {
-                } else {
-                    arrBackbone.push(obj.results[i]);
-                };
+            console.log(typeof obj);
+            //console.log(obj[0].hasOwnProperty("message"));
+            //need a try statement here
+            if (!obj.hasOwnProperty("results")) {
+                console.log("<<<<<<<<<< no results >>>>>>>>>>>");
+                arrBackbone.push(obj[0]);
+            } else {
+                //removing inspections with the score of 0
+                for (var i = (obj.results.length - 1); i > -1; i--) {
+                    //Changing inspection_number to an array
+                    obj.results[i].inspection_number = [obj.results[i].inspection_number];
+
+                    if (obj.results[i].score != 0) {
+                        //This record has a score over 0
+                        var index = -1;
+                        for(var j = 0; j < arrBackbone.length; j++) {
+                            //searching arrBackbone for a record with the same id
+                            if (arrBackbone[j].id === obj.results[i].id) {
+                                //found it, pass along the index of the record
+                                index = j;
+                                break;
+                            }
+                        };
+                        if (index >= 0){
+                            arrBackbone[index].inspection_number.push(obj.results[i].inspection_number)
+                        } else {
+                            //This restaurant is not in arrBackbone yet
+                            arrBackbone.push(obj.results[i])
+                        };
+                    };
+                }
+                arrBackbone.sort(function(a,b) {return parseFloat(a.distance - b.distance)});
             }
             console.log("Array: " + arrBackbone);
-            arrBackbone.sort(function(a,b) {return parseFloat(a.distance - b.distance)});
             response.end(JSON.stringify(arrBackbone));
         });
         res.on('error', function (e) {

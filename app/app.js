@@ -1,6 +1,7 @@
 // global for the sake of this example
 var Restaurants = new RestaurantList();
 var App = null;
+var test;
 
 /**
  * The App
@@ -14,14 +15,23 @@ var AppView = Backbone.View.extend({
     // Event wiring (events and event handlers)
 
     events: {
-        "click #btnDetail": 'showDetail',
+        'click #btnDetail': 'showDetail',
         'click #btnMap': 'showMap',
-        'click #myPosition' : 'getLoc'
+        'click #myPosition' : 'getLoc',
+        'click .zipOpt': 'getThisZip'
     },
 
     getLoc: function() {
         console.log("You clicked that button!!!");
         getLocation();
+    },
+
+    getThisZip: function() {
+        test = '';
+        test = event.target.id;
+        console.log("Base :" + test);
+        $('.noResults').remove();
+        getLatLng(test);
     },
 
     showDetail: function () { //triggers "detail" mode
@@ -137,7 +147,7 @@ var AppView = Backbone.View.extend({
             //}); //<< same as center point latlng above
             // create views
             var listView = new RestaurantListView({model: Restaurants, map: self.map});
-        }, 2000);
+        }, 500);
     }
 });
 
