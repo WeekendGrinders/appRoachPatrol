@@ -1,5 +1,6 @@
 // global for the sake of this example
 var Restaurants = new RestaurantList();
+var Reports = new RestaurantReports();
 var App = null;
 var test;
 var map;
@@ -19,7 +20,8 @@ var AppView = Backbone.View.extend({
         'click #btnDetail': 'showDetail',
         'click #btnMap': 'showMap',
         'click #myPosition' : 'getLoc',
-        'click .zipOpt': 'getThisZip'
+        'click .zipOpt': 'getThisZip',
+        'click .showMore' : 'showDetail'
     },
 
     getLoc: function() {
@@ -35,12 +37,20 @@ var AppView = Backbone.View.extend({
         getLatLng(test);
     },
 
-    showDetail: function () { //triggers "detail" mode
+    showDetail: function (reportString) { //triggers "detail" mode
         var self = this;
         var top = 200;
         var speed = 600;
 
-        // set content position and fade in
+        var inspection_numbers = reportString.split('_');
+        Reports.fetch({
+            data: reportString, 
+            success: function(collection, response, options) {
+                //Do something????
+            }
+        });
+
+        // set content position and fade in        
         self.main.animate({top: (top) + 'px'}, speed, function () {
             self.main.fadeIn();
         });

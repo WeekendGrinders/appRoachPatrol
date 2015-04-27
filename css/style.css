@@ -14,6 +14,10 @@ body {
     font-size: 24px;
 }
 
+.showMore:focus {
+    outline: none !important;
+}
+
 #app header {
     position: absolute;
     width: 100%;

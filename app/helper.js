@@ -135,8 +135,9 @@ function plotMarkers() {
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
             console.log("Hey! You clicked a marker! This marker: " + marker);
             return function() {
+                var restaurantID = Restaurants.models[i].attributes.id;
                 var inspectionNums = Restaurants.models[i].attributes.inspection_number.join('_');
-                infowindow.setContent('<div class="restInfoWindow"><h4>' + Restaurants.models[i].attributes.name + '</h4> Score: ' +Restaurants.models[i].attributes.score+ '<br><div class="inspectionNums" onClick="openReports(\''+inspectionNums+'\')"> Inspections reports: ' + Restaurants.models[i].attributes.inspection_number+'</div><button id="showMore" class="btn btn-warning">More Info</button><div>');
+                infowindow.setContent('<div class="restInfoWindow"><h4>' + Restaurants.models[i].attributes.name + '</h4> Score: ' +Restaurants.models[i].attributes.score+ '<br><div class="inspectionNums" onClick="openReports(\''+inspectionNums+'\')"> Inspections reports: ' + Restaurants.models[i].attributes.inspection_number+'</div><button onclick="App.showDetail(\''+inspectionNums+'\')" class="showMore btn btn-warning">More Info</button><div>');
                 infowindow.open(map, marker);
             }
         })(marker, i));

@@ -1,7 +1,7 @@
 /**
  * Restaurant Collection
- * The collection of companies is backed by *localStorage* instead of a remote
- * server.
+ * 
+ * 
  */
 
 var RestaurantList = Backbone.Collection.extend({
