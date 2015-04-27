@@ -46,7 +46,14 @@ var AppView = Backbone.View.extend({
         Reports.fetch({
             data: reportString, 
             success: function(collection, response, options) {
-                //Do something????
+                $('#restaurantDetails').empty();
+                $('#restaurantDetails').append('<span class="restName"><h1>'+Reports.models[0].attributes.restaurant_name+'</h1></span>');
+                for (var i = 0; i < Reports.length; i++) {
+                    $('#restaurantDetails').append('<hr><div class="report'+i+'"><div class="score">Score: '+Reports.models[i].attributes.score+'</div><div class="date">Date: '+Reports.models[i].attributes.date+'</div><div id="violation'+i+'"></div></div>');
+                    for (var j = 0; j < Reports.models[i].attributes.violations.length; j++) {
+                        $('#violation'+i).append('<div class="violation">Violation object:'+JSON.stringify(Reports.models[i].attributes.violations[j])+'</div>');
+                    }
+                }
             }
         });
 

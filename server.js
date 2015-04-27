@@ -74,6 +74,7 @@ function apiBackbone(response, query) {
 function getReport(response, query) {
     var queryArr = [];
     var responseData = [];
+    var responseCatch = []
     var completed_requests = 0;
 
     if (query.indexOf("_") >= 0) {
@@ -81,17 +82,53 @@ function getReport(response, query) {
     } else {
         queryArr.push(query);
     }
-
+    
+    body2 = '';
 
     //building and async call for all of the elements in the array...
     queryArr.forEach(function(query){
-        http.get("http://api.civicapps.org/restaurant-inspections/inspection/" + queryArr[i], function (res) {
+        
+        console.log("query :" + query);
+        http.get("http://api.civicapps.org/restaurant-inspections/inspection/" + query, function (res) {
+            
             console.log("Got response: " + res.statusCode);
             res.on('data', function (chunk) {
+                console.log("completed requests: " + completed_requests);
+                console.log("query :"+query);
                 body2 += chunk;
-                console.log("---------------Recieved a chunk of data from API--------------" + i);
+                console.log("chunk :" + chunk);
+                console.log("---------------Recieved a chunk of data from API--------------");
+                console.log("body2 after chunk :" + body2);
             });
-        }
+            res.on('end', function () {
+                console.log("body2 = " + body2);
+                console.log("---------------Parsing body--------------");
+                //var obj = JSON.parse(body2);
+                //console.log('obj = '+obj);
+                if (completed_requests == (queryArr.length - 1)){
+                    console.log("---------------Final push--------------");
+                    var obj = JSON.parse(body2);
+                    console.log('obj = '+obj);
+                    //console.log("obj.results = " + obj.results);
+                    responseData.push(obj.results);
+                    console.log("---------------Sending data to client--------------");
+                    console.log(JSON.stringify(responseData));
+                    response.end(JSON.stringify(responseData));
+                    console.log("---------------closing connection with server--------------");
+                } else {
+                    console.log("---------------Completed one get--------------");
+                    //console.log("obj = " + obj);
+                    //console.log("obj.results = " + obj.results);
+                    //console.log("---------------Pushing to array--------------");
+                    var obj = JSON.parse(body2);
+                    responseData.push(obj.results);
+                    completed_requests++;
+                }
+                console.log('--------------Clearing variables-----------');
+                obj = '';
+                body2 = '';
+            });
+        })   
     })
     
     //Make API GET request for a specific inspection
@@ -128,8 +165,8 @@ function getReport(response, query) {
     //     });
     // }
     console.log("---------------End of API function--------------");
-    console.log(body2);
-    return true;
+    //console.log(body2);
+    //return true;
 };
 
 //Getting inspections for backbone
