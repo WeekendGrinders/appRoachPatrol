@@ -39,7 +39,7 @@ body {
     border-radius: 0 0 0 0;
 }
 
-#app header h1 {
+#app .navbar h1 {
     font: 400 30px "Helvetica Neue", Helvetica, Arial, sans-serif;
     text-align: center;
     padding: 0;
@@ -47,11 +47,11 @@ body {
     float: left;
 }
 
-#app header h1 small {
+#app .navbar h1 small {
     font: 100 20px "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-#app header .zipcode {
+#app .navbar .zipcode {
     float: right;
 }
 
@@ -65,8 +65,8 @@ body {
     padding: 20px;
 }
 
-#restaurantView {
-    display: none;
+#restaurantListView {
+    display: block;
     position: absolute;
     background-color: white;
     padding: 15px;
@@ -83,16 +83,16 @@ body {
     border-radius: 5px;
 }
 
-#restaurantView ul {
+#restaurantList ul {
     list-style-type: none;
     margin: 5px 0px;
 }
 
-#restaurantView li {
+#restaurantList li {
     padding: 3px;
 }
 
-#restaurantView a {
+#restaurantList a {
 
 }
 

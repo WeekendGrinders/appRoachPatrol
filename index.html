@@ -10,13 +10,12 @@
     <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 </head>
 <body>
-
+<div class="container-fluid">
 <div id="app" class="">
-    <header>
+    <div class="row">
+    <nav class="navbar">
         <img src="img/RP-icon.png" class="pull-left" style="margin-right: 6px;" width="40px" height="40px"/>
-        <h1> Roach Patrol
-            <small>its your right to inspect the kitchen serving you</small>
-        </h1>
+        <h1> Roach Patrol</h1>
         <div class="pull-right">
         <button type="button" id="myPosition" class="btn btn-default" aria-label="My Position">
             <span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>
@@ -45,19 +44,14 @@
                 <li role="presentation" class="text-center"><a role="menuitem" class="zipOpt" tabindex="-1" href="#" id="97215">97215</a></li>
             </ul>
         </div>
-    </header>
+    </nav>
 
     <!-- <div class="nav_controls" id="mapControls">
         <button id="btnContent" class="btn btn-large btn-warning">Show content</button>
     </div> -->
 
-    <div id="restaurantListViewContainer">
-        <button id="btn_pop_new_company" class="btn"><i class="icon-plus"></i> New company</button>
-        <button id="btn_delete_all_companies" class="btn btn-danger"><i class="icon-remove icon-white"></i> Remove them
-            all
-        </button>
-
-        <div id="restaurantListView">
+    <div id="restaurantListView">
+        <div id="restaurantList">
             <ul></ul>
         </div>
     </div>
@@ -72,31 +66,16 @@
 
     <!-- <div class="nav_controls" id="contentControls">
         <button id="btnMap" class="btn btn-large btn-warning">Show map</button>
-    </div>
-
-    <div class=row-fluid>
-        <div class="span4">
-            <h2>Lorem ipsum y más lorem (ole!)</h2>
-
-            <div class="alert alert-block">
-                <a class="close">×</a>
-                <h4 class="alert-heading">Demo</h4>
-
-                <p>Really simple demo of how to use Backbone.js and Google Maps with a few simple interactions.</p>
-            </div>
-
-            <ul>
-                <li>Markers are randomly generated and persist in localstorage.</li>
-                <li>Hybrid interface inspiration from: <a href="http://www.endangeredlanguages.com/" target="_blank"
-                                                          title="endangeredlanguages">endangeredlanguages</a> and <a
-                        href="http://www.metroroto.com/" target="_blank" title="metroroto">http://www.metroroto.com/</a>.
-                </li>
-            </ul>
-        </div> -->
+    </div>-->
 
         <div class="span12">
             <div id="restaurantDetails"></div>
         </div>
+    </div>
+    </div> <!-- row -->
+<div id="mapCanvas">map div</div>
+
+</div>
 </section>
 
 
@@ -118,6 +97,5 @@
 <script src="app/app.js"></script>
 <script src="app/helper.js"></script>
 
-<div id="mapCanvas">map div</div>
 </body>
 </html>

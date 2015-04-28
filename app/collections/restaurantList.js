@@ -1,7 +1,5 @@
 /**
  * Restaurant Collection
- * 
- * 
  */
 
 var RestaurantList = Backbone.Collection.extend({
@@ -9,8 +7,6 @@ var RestaurantList = Backbone.Collection.extend({
     // reference to this collection's model.
     model: Restaurant,
     url: '/restaurants',
-
-    //localStorage: new Store("restaurant-cachirulo"),
 
     //addNew: function (restaurant) {
     //    this.create(restaurant);

@@ -127,6 +127,12 @@ var AppView = Backbone.View.extend({
 
         map = new google.maps.Map(document.getElementById('mapCanvas'),
             mapOptions);
+
+        google.maps.event.addDomListener(window, "resize", function() {
+        var center = map.getCenter();
+        google.maps.event.trigger(map, "resize");
+        map.setCenter(center); 
+        });
         //console.log("This.map :" test.map);
     },
 
@@ -170,7 +176,9 @@ var AppView = Backbone.View.extend({
             //}); //<< same as center point latlng above
             // create views
             var listView = new RestaurantListView({model: Restaurants, map: self.map});
-        }, 500);
+            listView.render();
+            console.log(listView.el);
+        }, 0);
     }
 });
 
