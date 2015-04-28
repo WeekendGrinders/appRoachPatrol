@@ -11,89 +11,80 @@
 </head>
 <body>
 <div class="container-fluid">
-<div id="app" class="">
-    <div class="row">
-    <nav class="navbar">
-        <img src="img/RP-icon.png" class="pull-left" style="margin-right: 6px;" width="40px" height="40px"/>
-        <h1> Roach Patrol</h1>
-        <div class="pull-right">
-        <button type="button" id="myPosition" class="btn btn-default" aria-label="My Position">
-            <span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>
-        </button>
+    <div id="app" class="">
+        <div class="row">
+            <nav class="navbar">
+                <img src="img/RP-icon.png" class="pull-left" style="margin-right: 6px;" width="40px" height="40px"/>
+                <h1> Roach Patrol</h1>
+                <div class="pull-right">
+                    <button type="button" id="myPosition" class="btn btn-default" aria-label="My Position">
+                        <span class="glyphicon glyphicon-screenshot" aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="dropdown zipcode" style="margin-right: 12px;">
+                    <button type="button" id="zipcodes" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                            aria-expanded="true">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> by Zipcode
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
+                        <li role="presentation" class="dropdown-header">Multnomah County</li>
+                        <li role="presentation" class="text-center"><a role="menuitem" id="97201" class="zipOpt" tabindex="-1" href="#">97201</a></li>
+                        <li role="presentation" class="text-center"><a role="menuitem" class="zipOpt" tabindex="-1" href="#" id="97202">97202</a></li>
+                        <li role="presentation" class="text-center"><a role="menuitem" class="zipOpt" tabindex="-1" href="#" id="97203">97203</a></li>
+                        <li role="presentation" class="text-center"><a role="menuitem" class="zipOpt" tabindex="-1" href="#" id="97204">97204</a></li>
+                        <li role="presentation" class="text-center"><a role="menuitem" class="zipOpt" tabindex="-1" href="#" id="97205">97205</a></li>
+                        <li role="presentation" class="text-center"><a role="menuitem" class="zipOpt" tabindex="-1" href="#" id="97206">97206</a></li>
+                        <li role="presentation" class="text-center"><a role="menuitem" class="zipOpt" tabindex="-1" href="#" id="97209">97209</a></li>
+                        <li role="presentation" class="text-center"><a role="menuitem" class="zipOpt" tabindex="-1" href="#" id="97210">97210</a></li>
+                        <li role="presentation" class="text-center"><a role="menuitem" class="zipOpt" tabindex="-1" href="#" id="97211">97211</a></li>
+                        <li role="presentation" class="text-center"><a role="menuitem" class="zipOpt" tabindex="-1" href="#" id="97212">97212</a></li>
+                        <li role="presentation" class="text-center"><a role="menuitem" class="zipOpt" tabindex="-1" href="#" id="97213">97213</a></li>
+                        <li role="presentation" class="text-center"><a role="menuitem" class="zipOpt" tabindex="-1" href="#" id="97214">97214</a></li>
+                        <li role="presentation" class="text-center"><a role="menuitem" class="zipOpt" tabindex="-1" href="#" id="97215">97215</a></li>
+                    </ul>
+                </div>
+            </nav>
+            <!--
+                <div class="nav_controls" id="mapControls">
+                    <button id="btnContent" class="btn btn-large btn-warning">Show content</button>
+                </div>
+            -->
+            <div id="restaurantListView">
+                <div id="restaurantList">
+                    <ul></ul>
+                </div>
             </div>
-        <div class="dropdown zipcode" style="margin-right: 12px;">
-            <button type="button" id="zipcodes" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                    aria-expanded="true">
-                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> by Zipcode
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
-                <li role="presentation" class="dropdown-header">Multnomah County</li>
-                <li role="presentation" class="text-center"><a role="menuitem" id="97201" class="zipOpt" tabindex="-1" href="#">97201</a></li>
-                <li role="presentation" class="text-center"><a role="menuitem" class="zipOpt" tabindex="-1" href="#" id="97202">97202</a></li>
-                <li role="presentation" class="text-center"><a role="menuitem" class="zipOpt" tabindex="-1" href="#" id="97203">97203</a></li>
-                <li role="presentation" class="text-center"><a role="menuitem" class="zipOpt" tabindex="-1" href="#" id="97204">97204</a></li>
-                <li role="presentation" class="text-center"><a role="menuitem" class="zipOpt" tabindex="-1" href="#" id="97205">97205</a></li>
-                <li role="presentation" class="text-center"><a role="menuitem" class="zipOpt" tabindex="-1" href="#" id="97206">97206</a></li>
-                <li role="presentation" class="text-center"><a role="menuitem" class="zipOpt" tabindex="-1" href="#" id="97207">97207</a></li>
-                <li role="presentation" class="text-center"><a role="menuitem" class="zipOpt" tabindex="-1" href="#" id="97208">97208</a></li>
-                <li role="presentation" class="text-center"><a role="menuitem" class="zipOpt" tabindex="-1" href="#" id="97209">97209</a></li>
-                <li role="presentation" class="text-center"><a role="menuitem" class="zipOpt" tabindex="-1" href="#" id="97210">97210</a></li>
-                <li role="presentation" class="text-center"><a role="menuitem" class="zipOpt" tabindex="-1" href="#" id="97211">97211</a></li>
-                <li role="presentation" class="text-center"><a role="menuitem" class="zipOpt" tabindex="-1" href="#" id="97212">97212</a></li>
-                <li role="presentation" class="text-center"><a role="menuitem" class="zipOpt" tabindex="-1" href="#" id="97213">97213</a></li>
-                <li role="presentation" class="text-center"><a role="menuitem" class="zipOpt" tabindex="-1" href="#" id="97214">97214</a></li>
-                <li role="presentation" class="text-center"><a role="menuitem" class="zipOpt" tabindex="-1" href="#" id="97215">97215</a></li>
-            </ul>
+
+            <div class="nav_controls" id="contentControls">
+                <button id="btnMap" class="btn btn-large btn-warning">Show map</button>
+            </div>
+
         </div>
-    </nav>
 
-    <div id="restaurantListView">
-        <div id="restaurantList">
-            <ul></ul>
-        </div>
-    </div>
+        <section id="main">
+            <div class="span12">
+                <div id="restaurantDetails"></div>
+            </div>
+        </section>
 
-    <div class="nav_controls" id="contentControls">
-        <button id="btnMap" class="btn btn-large btn-warning">Show map</button>
-    </div>
+        <div id="mapCanvas">map div</div>
 
-</div>
+        <!-- libraries -->
+        <script src="app/lib/jquery.js"></script>
+        <script src="app/lib/underscore.js"></script>
+        <script src="app/lib/backbone.js"></script>
+        <script src="app/lib/bootstrap.js"></script>
 
-<section id="main">
+        <!-- app -->
+        <script src="app/models/restaurant.js"></script>
+        <script src="app/collections/restaurantList.js"></script>
+        <script src="app/views/restaurantView.js"></script>
+        <script src="app/views/restaurantListView.js"></script>
+        <script src="app/views/restaurantMarkerView.js"></script>
 
-    <!-- <div class="nav_controls" id="contentControls">
-        <button id="btnMap" class="btn btn-large btn-warning">Show map</button>
-    </div>-->
-
-        <div class="span12">
-            <div id="restaurantDetails"></div>
-        </div>
-    </div>
-    </div> <!-- row -->
-<div id="mapCanvas">map div</div>
-
-</div>
-</section>
-
-
-<!-- libraries -->
-<script src="app/lib/jquery.js"></script>
-<script src="app/lib/underscore.js"></script>
-<script src="app/lib/backbone.js"></script>
-<script src="app/lib/bootstrap.js"></script>
-
-<!-- app -->
-<script src="app/models/restaurant.js"></script>
-<script src="app/models/restaurantReport.js"></script>
-<script src="app/collections/restaurantList.js"></script>
-<script src="app/collections/restaurantReports.js"></script>
-<script src="app/views/restaurantView.js"></script>
-<script src="app/views/restaurantListView.js"></script>
-<script src="app/views/restaurantMarkerView.js"></script>
-
-<script src="app/app.js"></script>
-<script src="app/helper.js"></script>
+        <script src="app/app.js"></script>
+        <script src="app/helper.js"></script>
 
 </body>
 </html>
