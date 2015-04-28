@@ -9,7 +9,8 @@ var RestaurantListView = Backbone.View.extend({
 
     initialize: function (options) {
         this.map = options.map;
-        this.model.on('add', this.addRestaurant, this);
+        this.collection.on('add', this.addRestaurant, this);
+        this.collection.on('reset', this.addAll, this);
 
         // initialize position
         this.$el.css({display: 'none', right: '20px', top: '120px'}, 2000);
@@ -26,9 +27,6 @@ var RestaurantListView = Backbone.View.extend({
     events: {
         'click #btnReset': 'reset'
     },
-    'reset' : function() {
-        Restaurants.remove_all();
-    },
 
     // END Events and event handlers
     //----------------------------------
@@ -36,10 +34,13 @@ var RestaurantListView = Backbone.View.extend({
     addRestaurant: function (restaurant) {
         var markerView = new RestaurantMarkerView({model: restaurant, map: this.map});
         var itemView = new RestaurantView({model: restaurant, markerView: markerView});
+        console.log("When i this happening?\n" + (itemView.render().el))
         $(this.listContainer).append(itemView.render().el);
     },
-
+    addAll: function() {
+        this.collection.forEach(this.addRestaurant, this);
+    },
     render: function () {
-        this.model.each(this.addRestaurant, this);
+        this.addAll();
     }
 });
