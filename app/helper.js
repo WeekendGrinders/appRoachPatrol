@@ -76,6 +76,9 @@ function getLatLng(zip) {
                         } else {
                             console.log("Putting markers on the map...");
                             plotMarkers();
+                            var listView = new RestaurantListView({model: Restaurants, map: self.map});
+                            listView.render();
+                            console.log(listView.el);
                         }
                     },
                     data: LatLng
@@ -139,6 +142,7 @@ function plotMarkers() {
                 var inspectionNums = Restaurants.models[i].attributes.inspection_number.join('_');
                 infowindow.setContent('<div class="restInfoWindow"><h4>' + Restaurants.models[i].attributes.name + '</h4> Score: ' +Restaurants.models[i].attributes.score+ '<br><div class="inspectionNums" onClick="openReports(\''+inspectionNums+'\')"> Inspections reports: ' + Restaurants.models[i].attributes.inspection_number+'</div><button onclick="App.showDetail(\''+inspectionNums+'\')" class="showMore btn btn-warning">More Info</button><div>');
                 infowindow.open(map, marker);
+                App.showDetail();
             }
         })(marker, i));
     }
