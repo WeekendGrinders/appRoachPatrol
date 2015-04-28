@@ -27,6 +27,9 @@ var RestaurantListView = Backbone.View.extend({
     events: {
         'click #btnReset': 'reset'
     },
+    reset: function() {
+
+    },
 
     // END Events and event handlers
     //----------------------------------
