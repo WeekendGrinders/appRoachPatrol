@@ -1,5 +1,6 @@
 // global for the sake of this example
 var Restaurants = new RestaurantList();
+var Reports = new RestaurantReports();
 var App = null;
 var test;
 var map;
@@ -19,7 +20,8 @@ var AppView = Backbone.View.extend({
         'click #btnDetail': 'showDetail',
         'click #btnMap': 'showMap',
         'click #myPosition' : 'getLoc',
-        'click .zipOpt': 'getThisZip'
+        'click .zipOpt': 'getThisZip',
+        'click .showMore' : 'showDetail'
     },
 
     getLoc: function() {
@@ -35,12 +37,27 @@ var AppView = Backbone.View.extend({
         getLatLng(test);
     },
 
-    showDetail: function () { //triggers "detail" mode
+    showDetail: function (reportString) { //triggers "detail" mode
         var self = this;
         var top = 200;
         var speed = 600;
 
-        // set content position and fade in
+        var inspection_numbers = reportString.split('_');
+        Reports.fetch({
+            data: reportString, 
+            success: function(collection, response, options) {
+                $('#restaurantDetails').empty();
+                $('#restaurantDetails').append('<span class="restName"><h1>'+Reports.models[0].attributes.restaurant_name+'</h1></span>');
+                for (var i = 0; i < Reports.length; i++) {
+                    $('#restaurantDetails').append('<hr><div class="report'+i+'"><div class="score">Score: '+Reports.models[i].attributes.score+'</div><div class="date">Date: '+Reports.models[i].attributes.date+'</div><div id="violation'+i+'"></div></div>');
+                    for (var j = 0; j < Reports.models[i].attributes.violations.length; j++) {
+                        $('#violation'+i).append('<div class="violation">Violation object:'+JSON.stringify(Reports.models[i].attributes.violations[j])+'</div>');
+                    }
+                }
+            }
+        });
+
+        // set content position and fade in        
         self.main.animate({top: (top) + 'px'}, speed, function () {
             self.main.fadeIn();
         });
@@ -99,8 +116,6 @@ var AppView = Backbone.View.extend({
             }
         ];
 
-        //Initialize infoWindows for the markers
-        var infowindow = new google.maps.InfoWindow();
 
         var mapOptions = {
             zoom: 15,
