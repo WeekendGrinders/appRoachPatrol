@@ -87,7 +87,7 @@ function getReport(response, query) {
 
     //building and async call for all of the elements in the array...
     queryArr.forEach(function(query){
-        
+        var bodyTest = '';
         console.log("query :" + query);
         http.get("http://api.civicapps.org/restaurant-inspections/inspection/" + query, function (res) {
             
@@ -95,19 +95,19 @@ function getReport(response, query) {
             res.on('data', function (chunk) {
                 console.log("completed requests: " + completed_requests);
                 console.log("query :"+query);
-                body2 += chunk;
+                bodyTest += chunk;
                 console.log("chunk :" + chunk);
                 console.log("---------------Recieved a chunk of data from API--------------");
-                console.log("body2 after chunk :" + body2);
+                console.log("body2 after chunk :" + bodyTest);
             });
             res.on('end', function () {
-                console.log("body2 = " + body2);
+                console.log("body2 = " + bodyTest);
                 console.log("---------------Parsing body--------------");
                 //var obj = JSON.parse(body2);
                 //console.log('obj = '+obj);
                 if (completed_requests == (queryArr.length - 1)){
                     console.log("---------------Final push--------------");
-                    var obj = JSON.parse(body2);
+                    var obj = JSON.parse(bodyTest);
                     console.log('obj = '+obj);
                     //console.log("obj.results = " + obj.results);
                     responseData.push(obj.results);
@@ -120,13 +120,13 @@ function getReport(response, query) {
                     //console.log("obj = " + obj);
                     //console.log("obj.results = " + obj.results);
                     //console.log("---------------Pushing to array--------------");
-                    var obj = JSON.parse(body2);
+                    var obj = JSON.parse(bodyTest);
                     responseData.push(obj.results);
                     completed_requests++;
                 }
                 console.log('--------------Clearing variables-----------');
                 obj = '';
-                body2 = '';
+                //body2 = '';
             });
         })   
     })
