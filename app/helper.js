@@ -99,10 +99,10 @@ function plotMarkers() {
             'Long: ' + Restaurants.models[i].attributes.location.Longitude + '\n'
         );
         //show info in sidebar
-        // $('.results').append('<div id="'+i+'" class="resultItem" onClick="getThis('+i+')"><span class="restName">' + Restaurants.models[i].name + '</span><br><span class="restAddress">' + Restaurants.models[i].address.street + '</span><span class="restScore"> Score:' + Restaurants.models[i].score + '</span></div>');
-        // if ((i%2) != 0) {
-        //     $('#'+i).css({background: "#CCC"});
-        // }
+        $('#restaurantList').append('<div id="'+i+'" class="resultItem" onmouseover="listItemHover('+i+')" onmouseout="stopAnimation('+i+')" onClick="getThis('+i+')"><span class="restName">' + Restaurants.models[i].attributes.name + '</span><br><span class="restAddress">' + Restaurants.models[i].attributes.address.street + '</span><span class="restScore"> Score:' + Restaurants.models[i].attributes.score + '</span></div>');
+        if ((i%2) != 0) {
+            $('#'+i).css({background: "#CCC"});
+        }
         
         //Initialize infoWindows for the markers
         var infowindow = new google.maps.InfoWindow();
@@ -140,12 +140,14 @@ function plotMarkers() {
             return function() {
                 var restaurantID = Restaurants.models[i].attributes.id;
                 var inspectionNums = Restaurants.models[i].attributes.inspection_number.join('_');
-                infowindow.setContent('<div class="restInfoWindow"><h4>' + Restaurants.models[i].attributes.name + '</h4> Score: ' +Restaurants.models[i].attributes.score+ '<br><div class="inspectionNums" onClick="openReports(\''+inspectionNums+'\')"> Inspections reports: ' + Restaurants.models[i].attributes.inspection_number+'</div><button onclick="App.showDetail(\''+inspectionNums+'\')" class="showMore btn btn-warning">More Info</button><div>');
+                infowindow.setContent('<div class="restInfoWindow"><h4>' + Restaurants.models[i].attributes.name + '</h4> Score: ' +Restaurants.models[i].attributes.score+ '<br><div class="inspectionNums" onClick="openReports(\''+inspectionNums+'\')"> Inspections reports: ' + Restaurants.models[i].attributes.inspection_number+'</div><button onclick="App.showDetail(\''+inspectionNums+'\')" class="showMore btn btn-default">More Info</button><div>');
                 infowindow.open(map, marker);
                 App.showDetail();
             }
         })(marker, i));
+        gMarkers.push(marker);
     }
+    $('#restaurantListView').css({display: "block"});
 }
 
 function initialize() {
@@ -215,6 +217,17 @@ function getThis(marker) {
     google.maps.event.trigger(gMarkers[marker], "click");
 }
 
+function listItemHover(marker) { 
+    //google.maps.event.trigger(gMarkers[marker], "click");
+    //google.maps.event.trigger(gMarkers[marker], "click", function(){gMarkers[marker].setAnimation(google.maps.Animation.BOUNCE);});
+    //console.log("animate this marker:" + gMarkers[marker]);
+    gMarkers[marker].setAnimation(google.maps.Animation.BOUNCE);
+}
+
+function stopAnimation(marker) {
+    //console.log("Stop animating this marker:" + gMarkers[marker]);
+    gMarkers[marker].setAnimation(google.maps.Animation.drop);
+}
 
 var restaurants = {};
 var opt = {lat:45.584332000, lng:-122.728474000};

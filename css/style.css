@@ -18,6 +18,15 @@ body {
     outline: none !important;
 }
 
+.restScore {
+    color: red;
+    float: right;
+}
+
+.resultItem{
+    cursor: pointer;
+}
+
 #app .navbar {
     position: absolute;
     width: 100%;
@@ -66,11 +75,12 @@ body {
 }
 
 #restaurantListView {
-    display: block;
+    display: none;
     position: absolute;
     background-color: white;
     padding: 15px;
-
+    height: 85%;
+    overflow-y: auto;
     -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
     -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
     -ms-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;

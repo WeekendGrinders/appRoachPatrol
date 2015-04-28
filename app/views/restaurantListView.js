@@ -12,7 +12,7 @@ var RestaurantListView = Backbone.View.extend({
         this.model.on('add', this.addRestaurant, this);
 
         // initialize position
-        this.$el.css({display: 'none', right: '20px', top: '120px'}, 2000);
+        this.$el.css({display: 'none', right: '4px', top: '63px'}, 2000);
         this.$el.fadeIn('500');
 
         this.listContainer = $('#restaurantList ul', this.$el);
