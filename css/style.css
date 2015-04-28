@@ -14,7 +14,11 @@ body {
     font-size: 24px;
 }
 
-#app .navbar {
+.showMore:focus {
+    outline: none !important;
+}
+
+#app header {
     position: absolute;
     width: 100%;
     color: #333333;
