@@ -29,6 +29,7 @@ var AppView = Backbone.View.extend({
     },
 
     getThisZip: function() {
+        clearOverlays();
         test = '';
         test = event.target.id;
         console.log("Base :" + test);
@@ -38,9 +39,10 @@ var AppView = Backbone.View.extend({
 
     showDetail: function (reportString) { //triggers "detail" mode
         var self = this;
-        var top = 200;
+        var top = 66;
         var speed = 600;
 
+        
         var inspection_numbers = reportString.split('_');
         Reports.fetch({
             data: reportString, 
@@ -101,13 +103,14 @@ var AppView = Backbone.View.extend({
         self.restaurantView.fadeOut();
 
         // controls to switch back to map
-        self.controls.hide().css({top: (top - 100) + 'px'});
+        self.controls.hide().css({top: (top + 3) + 'px'});
         setTimeout(function () {
             self.contentControls.fadeIn();
         }, 2 * speed);
 
         // resize map canvas
         self.mapCanvas.animate({height: (top) + 'px'}, speed);
+        $('#restaurantListView').css({height : '20px'});
     },
 
     showMap: function () { // triggers "map" mode
@@ -130,6 +133,7 @@ var AppView = Backbone.View.extend({
             self.mapControls.css({top: '80%'});
             self.mapControls.fadeIn();
         }, speed);
+        $('#restaurantListView').css({height : '87%'});
     },
 
     // END Events and event handlers

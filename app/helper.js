@@ -42,6 +42,13 @@ function getLocation (){
 
 }
 
+function clearOverlays() {
+  for (var i = 0; i < gMarkers.length; i++ ) {
+    gMarkers[i].setMap(null);
+  }
+  gMarkers.length = 0;
+}
+
 function noResults(message) {
     console.log("Need to show user that there was no results");
     if ($('.noResults').length == 0){
@@ -76,7 +83,7 @@ function getLatLng(zip) {
                         } else {
                             console.log("Putting markers on the map...");
                             plotMarkers();
-                            var listView = new RestaurantListView({model: Restaurants, map: self.map});
+                            //var listView = new RestaurantListView({model: Restaurants, map: self.map});
                             listView.render();
                             console.log(listView.el);
                         }
@@ -91,6 +98,8 @@ function getLatLng(zip) {
 }
 
 function plotMarkers() {
+    //Clear current data from restaurant list
+    $('#restaurantList').html('');
     for(var i = 0; i < Restaurants.models.length; i++) {
         console.log(
             'Name: ' + Restaurants.models[i].attributes.name + '\n' +
@@ -98,7 +107,8 @@ function plotMarkers() {
             'Lat: ' + Restaurants.models[i].attributes.location.Latitude + '\n' +
             'Long: ' + Restaurants.models[i].attributes.location.Longitude + '\n'
         );
-        //show info in sidebar
+        
+        //repopulate with fresh data
         $('#restaurantList').append('<div id="'+i+'" class="resultItem" onmouseover="listItemHover('+i+')" onmouseout="stopAnimation('+i+')" onClick="getThis('+i+')"><span class="restName">' + Restaurants.models[i].attributes.name + '</span><br><span class="restAddress">' + Restaurants.models[i].attributes.address.street + '</span><span class="restScore"> Score:' + Restaurants.models[i].attributes.score + '</span></div>');
         if ((i%2) != 0) {
             $('#'+i).css({background: "#CCC"});
