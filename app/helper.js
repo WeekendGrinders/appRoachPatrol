@@ -4,6 +4,8 @@ var geocoder;
 var marker, i;
 var zipLat;
 var zipLng;
+var zipLatLng;
+var usersDB;
 
 var zipLocation = {};
 var gMarkers = [];
@@ -17,9 +19,11 @@ function getLocation (){
             zipLat = position.coords.latitude;
             zipLng = position.coords.longitude;
             var LatLng = zipLng + ',' + zipLat;
+            zipLatLng = zipLat + ',' + zipLng;
             console.log(LatLng);
             var center = new google.maps.LatLng(zipLat, zipLng);
             map.panTo(center);
+            logUserPos.send(LatLng);
             //return LatLng;
             Restaurants.fetch({
                 success: function (collection, response, options) {
@@ -40,7 +44,10 @@ function getLocation (){
         alert('Geolocation not supported, please select zipcode from drop down menu');
     }
 
+    zipLatLng = '';
 }
+
+
 
 function clearOverlays() {
   for (var i = 0; i < gMarkers.length; i++ ) {
@@ -84,8 +91,8 @@ function getLatLng(zip) {
                             console.log("Putting markers on the map...");
                             plotMarkers();
                             //var listView = new RestaurantListView({model: Restaurants, map: self.map});
-                            listView.render();
-                            console.log(listView.el);
+                            //listView.render();
+                            //console.log(listView.el);
                         }
                     },
                     data: LatLng
@@ -157,7 +164,31 @@ function plotMarkers() {
         })(marker, i));
         gMarkers.push(marker);
     }
+    plotUsers();
     $('#restaurantListView').css({display: "block"});
+}
+
+function plotUsers(){
+    for (var i =0; i < usersDB.length; i++) {
+        var infowindow = new google.maps.InfoWindow();
+
+        marker = new google.maps.Marker({
+            map: map,
+            animation: google.maps.Animation.DROP,
+            icon: 'img/user.png',
+            position: new google.maps.LatLng(usersDB[i].lat, usersDB[i].lng),
+            title: 'User location' //hover pop-up name
+        });
+
+        //open the infoWindow for the restaurant when a marker is clicked
+        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+            return function() {
+                infowindow.setContent('<div class="restInfoWindow"><h4>A user made a request at this location.</h4><div>');
+                infowindow.open(map, marker);
+            }
+        })(marker, i));
+        gMarkers.push(marker);
+    }
 }
 
 function initialize() {
@@ -277,6 +308,38 @@ var roachPatrol = {
     }
 }
 
+var logUserPos = { 
+    url: '/userdb',
+    send: function(LatLng) {
+        console.log("Calling Node to call MongoDB" + zipLatLng);
+        $.ajax({
+            url: this.url,
+            data: zipLatLng,
+            method: 'GET',
+            dataType: 'json',
+            error : function(httpReq,status,exception){
+                alert(status+" "+exception);
+            }
+        })
+    }
+}
+
+var getAllUsers = { 
+    url: '/getUsers',
+    go: function(LatLng) {
+        console.log("Calling Node to call MongoDB" + zipLatLng);
+        $.ajax({
+            url: this.url,
+            data: zipLatLng,
+            method: 'GET',
+            dataType: 'json',
+            error : function(httpReq,status,exception){
+                alert(status+" "+exception);
+            }
+        }).done(mongoResponse)
+    }
+}
+
 //Calling for a specific inspection record
 var restaurantInspection = {
     url: '/report',
@@ -303,6 +366,11 @@ function acceptResponse(data, status, jqXHR) {
     restaurants = data;
     //renderMap();
     initialize();
+}
+
+function mongoResponse(data, status, jqXHR) {
+    console.log("From node/mongo: " + data);
+    usersDB = data;
 }
 
 //Display and store data from API (for inspection report)
