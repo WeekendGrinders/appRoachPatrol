@@ -17,7 +17,6 @@ var AppView = Backbone.View.extend({
     // Event wiring (events and event handlers)
 
     events: {
-        'click #btnDetail': 'showDetail',
         'click #btnMap': 'showMap',
         'click #myPosition' : 'getLoc',
         'click .zipOpt': 'getThisZip',
@@ -30,6 +29,7 @@ var AppView = Backbone.View.extend({
     },
 
     getThisZip: function() {
+        clearOverlays();
         test = '';
         test = event.target.id;
         console.log("Base :" + test);
@@ -39,20 +39,58 @@ var AppView = Backbone.View.extend({
 
     showDetail: function (reportString) { //triggers "detail" mode
         var self = this;
-        var top = 200;
+        var top = 66;
         var speed = 600;
 
+        
         var inspection_numbers = reportString.split('_');
         Reports.fetch({
             data: reportString, 
             success: function(collection, response, options) {
+                var inspectorComments = '';
                 $('#restaurantDetails').empty();
                 $('#restaurantDetails').append('<span class="restName"><h1>'+Reports.models[0].attributes.restaurant_name+'</h1></span>');
                 for (var i = 0; i < Reports.length; i++) {
-                    $('#restaurantDetails').append('<hr><div class="report'+i+'"><div class="score">Score: '+Reports.models[i].attributes.score+'</div><div class="date">Date: '+Reports.models[i].attributes.date+'</div><div id="violation'+i+'"></div></div>');
-                    for (var j = 0; j < Reports.models[i].attributes.violations.length; j++) {
-                        $('#violation'+i).append('<div class="violation">Violation object:'+JSON.stringify(Reports.models[i].attributes.violations[j])+'</div>');
+                    var scoreObj = {};
+                    if (Reports.models[i].attributes.score >= 90) {
+                        scoreObj = {
+                            letter : "A",
+                            color : "green"
+                        }
+                    } else if (Reports.models[i].attributes.score >= 80) {
+                        scoreObj = {
+                            letter : "B",
+                            color : "orange"
+                        }                        
+                    } else if (Reports.models[i].attributes.score >= 70) {
+                        scoreObj = {
+                            letter : "C",
+                            color : "red"
+                        }    
+                    } else if (Reports.models[i].attributes.score >= 60) {
+                        scoreObj = {
+                            letter : "D",
+                            color : "red"
+                        }    
+                    } else {
+                        scoreObj = {
+                            letter : "F",
+                            color : "red"
+                        }    
                     }
+                    $('#restaurantDetails').append('<hr><div class="report'+i+'"><div class="score"><h2>Score: '+Reports.models[i].attributes.score+'               <span style="color:'+scoreObj.color+'"><b>'+scoreObj.letter+'</b></span></h2></div><div class="date">Date: '+Reports.models[i].attributes.date+'</div><div id="violation'+i+'"></div></div>');
+                    for (var j = 0; j < Reports.models[i].attributes.violations.length; j++) {
+                        if (!Reports.models[i].attributes.violations[j].law) {
+                            $('#violation'+i).append('<div class="noViolations"><h4>No violations to report from this inspection.</h4></div>');
+                        } else {
+                            inspectorComments += (Reports.models[i].attributes.violations[j].violation_comments + '\n');
+
+                        }
+                    }
+                if (inspectorComments !='') {
+                    $('#violation'+i).append('<div class="comments"><h4>Comments from inspector:</h4>'+inspectorComments+'</div></div>');
+                }
+                inspectorComments = '';
                 }
             }
         });
@@ -65,13 +103,14 @@ var AppView = Backbone.View.extend({
         self.restaurantView.fadeOut();
 
         // controls to switch back to map
-        self.controls.hide().css({top: (top - 100) + 'px'});
+        self.controls.hide().css({top: (top + 3) + 'px'});
         setTimeout(function () {
             self.contentControls.fadeIn();
         }, 2 * speed);
 
         // resize map canvas
         self.mapCanvas.animate({height: (top) + 'px'}, speed);
+        $('#restaurantListView').css({height : '20px'});
     },
 
     showMap: function () { // triggers "map" mode
@@ -94,6 +133,7 @@ var AppView = Backbone.View.extend({
             self.mapControls.css({top: '80%'});
             self.mapControls.fadeIn();
         }, speed);
+        $('#restaurantListView').css({height : '87%'});
     },
 
     // END Events and event handlers
