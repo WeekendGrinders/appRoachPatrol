@@ -39,11 +39,11 @@ function addUserPos(response, query) {
             }
         //Close connection
         db.close();
-        //response.end();
+        response.end(JSON.stringify(user));
         });
       }
     });
-    return true;
+    //return true;
 }
 
 function getAllUsers(response) {
