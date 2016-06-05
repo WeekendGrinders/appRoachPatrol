@@ -9,7 +9,7 @@ var body = '';
 var body2 = '';
 var userData = [];
 var MongoClient = mongodb.MongoClient;
-/*
+
 // Connection URL.
 //var url = 'mongodb://localhost:27017/roachpatrol'; database url for local
 var url = 'mongodb://heroku_6ptfkt5b:washougal1@ds023593.mlab.com:23593/heroku_6ptfkt5b'
@@ -77,7 +77,7 @@ function getAllUsers(response) {
       }
     });
 }
-*/
+
 //Call for inspection records around a certain LatLng
 function apiBackbone(response, query) {
 
@@ -297,5 +297,5 @@ router.addRoute("/*", st({
 
 //Creating server and start listening on port 8080
 var server = http.createServer(router);
-console.log('server listening on port # 8033');
 server.listen(process.env.PORT || 8033);
+console.log('server listening on port # 8033');
