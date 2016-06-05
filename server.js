@@ -9,7 +9,7 @@ var body = '';
 var body2 = '';
 var userData = [];
 var MongoClient = mongodb.MongoClient;
-
+/*
 // Connection URL.
 var url = 'mongodb://heroku_x7ck5l42:washougal1@ds023593.mlab.com:23593/heroku_x7ck5l42';
 
@@ -76,7 +76,7 @@ function getAllUsers(response) {
       }
     });
 }
-
+*/
 //Call for inspection records around a certain LatLng
 function apiBackbone(response, query) {
 
