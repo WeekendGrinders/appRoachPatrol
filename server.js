@@ -11,7 +11,9 @@ var userData = [];
 var MongoClient = mongodb.MongoClient;
 
 // Connection URL.
-var url = 'mongodb://localhost:27017/roachpatrol';
+//var url = 'mongodb://localhost:27017/roachpatrol'; database url for local
+var url = 'mongodb://<dbuser>:<dbpassword>@ds023593.mlab.com:23593/heroku_x7ck5l42
+'
 
 function addUserPos(response, query) {
     var resArr = [];
@@ -296,5 +298,5 @@ router.addRoute("/*", st({
 
 //Creating server and start listening on port 8080
 var server = http.createServer(router);
-console.log('server listening on port # 8033');
-server.listen(process.env.PORT || 8033);
+console.log('server listening on port # 8080');
+server.listen(process.env.PORT || 8080);
