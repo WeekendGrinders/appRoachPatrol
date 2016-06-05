@@ -6,6 +6,7 @@
   "author": "K.Houston, M.Tupper & A.Emery",
   "license": "ISC",
   "dependencies": {
+    "http": "0.0.0",
     "mongodb": "^2.1.21",
     "request": "^2.55.0",
     "routes-router": "^4.1.2",
