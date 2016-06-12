@@ -11,8 +11,9 @@ var userData = [];
 var MongoClient = mongodb.MongoClient;
 
 // Connection URL.
-var url = 'mongodb://localhost:27017/roachpatrol'; //database url for local
-//var url = 'mongodb://heroku_6ptfkt5b:washougal1@ds023593.mlab.com:23593/heroku_6ptfkt5b'
+//var url = 'mongodb://localhost:27017/roachpatrol'; //database url for local
+var url = 'mongodb://heroku_6ptfkt5b:washougal1@ds023593.mlab.com:23593/heroku_6ptfkt5b';
+
 
 function addUserPos(response, query) {
     var resArr = [];
