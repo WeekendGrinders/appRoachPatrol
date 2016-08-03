@@ -2,82 +2,16 @@ var st = require('st');
 var request = require("request");
 var http = require('http');
 var Router = require("routes-router");
-var mongodb = require('mongodb');
 var router = Router();
-
 var body = '';
 var body2 = '';
 var userData = [];
-var MongoClient = mongodb.MongoClient;
-
-// Connection URL.
-//var url = 'mongodb://localhost:27017/roachpatrol'; //database url for local
-var url = 'mongodb://heroku_6ptfkt5b:washougal1@ds023593.mlab.com:23593/heroku_6ptfkt5b';
 
 
-function addUserPos(response, query) {
-    var resArr = [];
-    resArr = query.split(',');
-    console.log("Query in DB call: " + query);
-    MongoClient.connect(url, function (err, db) {
-      if (err) {
-        console.log('Unable to connect to the mongoDB server. Error:', err);
-      } else {
-        //HURRAY!! We are connected. :)
-        console.log('Connection established to', url);
 
-        var collection = db.collection('usersLoc');
 
-        var user = {
-            lat : resArr[0],
-            lng : resArr[1]
-        };
 
-        collection.insert(user, function (err, result) {
-            if (err) {
-                console.log("There was this error: "+err);
-            } else {
-                console.log('Inserted %d documents into the "users" collection. The documents inserted with "_id" are:', result.length, result);
-            }
-        //Close connection
-        db.close();
-        response.end(JSON.stringify(user));
-        });
-      }
-    });
-    //return true;
-}
 
-function getAllUsers(response) {
-    var allTheThings = '';
-    console.log("Getting all of the things");
-    MongoClient.connect(url, function (err, db) {
-      if (err) {
-        console.log('Unable to connect to the mongoDB server. Error:', err);
-      } else {
-        //HURRAY!! We are connected. :)
-        console.log('Connection established to', url);
-        var collection = db.collection('usersLoc');
-
-        collection.find().toArray(function(err, docs) {
-                if (!err) {
-                    db.close();
-                    var intCount = docs.length;
-                    if (intCount > 0) {
-                        var strJson = '';
-                        for (var i = 0; i < intCount; i++) {
-                            strJson += docs[i];
-                        }
-                        console.log("*****strJson :" + JSON.stringify(docs));
-                        response.end(JSON.stringify(docs));
-                    }  
-                }else {
-                    console.log(err)
-                } 
-            })
-      }
-    });
-}
 
 //Call for inspection records around a certain LatLng
 function apiBackbone(response, query) {
@@ -250,7 +184,7 @@ router.addRoute("/userdb", {
     }
 });
 
-
+/*
 router.addRoute("/getUsers", {
     GET: function(req,res,opts) {
         console.log("---------------Calling Mongo Get all function--------------");
@@ -262,7 +196,7 @@ router.addRoute("/getUsers", {
         console.log("---------------Finished Sending data to the client--------------");
     }
 });
-
+*/
 
 //Getting inspections for backbone
 router.addRoute("/restaurants", {
