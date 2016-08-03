@@ -6,8 +6,17 @@
   "author": "K.Houston, M.Tupper & A.Emery",
   "license": "ISC",
   "dependencies": {
+    "connect": "^3.4.1",
+    "http": "0.0.0",
+    "mongodb": "^2.1.21",
     "request": "^2.55.0",
     "routes-router": "^4.1.2",
     "st": "^0.5.3"
+  },
+  "scripts": {
+    "start": "node server"
+  },
+  "engines": {
+    "node": "5.2.0"
   }
 }

@@ -213,7 +213,7 @@ var AppView = Backbone.View.extend({
         setTimeout(function () { // fetch data with some delay
             //Restaurants.fetch(function() {
             getLocation();
-            getAllUsers.go();
+            //getAllUsers.go();
             //}); //<< same as center point latlng above
             // create views
             //var listView = new RestaurantListView({model: Restaurants, map: self.map});

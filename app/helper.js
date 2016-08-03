@@ -23,7 +23,7 @@ function getLocation (){
             console.log(LatLng);
             var center = new google.maps.LatLng(zipLat, zipLng);
             map.panTo(center);
-            logUserPos.send(LatLng);
+            //logUserPos.send(LatLng);
             //return LatLng;
             Restaurants.fetch({
                 success: function (collection, response, options) {
@@ -164,10 +164,9 @@ function plotMarkers() {
         })(marker, i));
         gMarkers.push(marker);
     }
-    plotUsers();
     $('#restaurantListView').css({display: "block"});
 }
-
+/*
 function plotUsers(){
     for (var i =0; i < usersDB.length; i++) {
         var infowindow = new google.maps.InfoWindow();
@@ -190,7 +189,7 @@ function plotUsers(){
         gMarkers.push(marker);
     }
 }
-
+*/
 function initialize() {
     console.log("Rendering the map...");
 
@@ -305,38 +304,6 @@ var roachPatrol = {
                 alert(status+" "+exception);
             }
         }).done(acceptResponse)
-    }
-}
-
-var logUserPos = { 
-    url: '/userdb',
-    send: function(LatLng) {
-        console.log("Calling Node to call MongoDB" + zipLatLng);
-        $.ajax({
-            url: this.url,
-            data: zipLatLng,
-            method: 'GET',
-            dataType: 'json',
-            error : function(httpReq,status,exception){
-                alert(status+" "+exception);
-            }
-        })
-    }
-}
-
-var getAllUsers = { 
-    url: '/getUsers',
-    go: function(LatLng) {
-        console.log("Calling Node to call MongoDB" + zipLatLng);
-        $.ajax({
-            url: this.url,
-            data: zipLatLng,
-            method: 'GET',
-            dataType: 'json',
-            error : function(httpReq,status,exception){
-                alert(status+" "+exception);
-            }
-        }).done(mongoResponse)
     }
 }
 
